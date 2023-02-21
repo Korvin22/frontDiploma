@@ -1,0 +1,25 @@
+.movies__more {
+  display: flex;
+  justify-content: center;
+  padding:50px 0 80px 0;
+  margin-left: 70px;
+  margin-right:70px;
+}
+
+.movies__button {
+  width: 320px;
+  height: 36px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 15px;
+  letter-spacing: 0px;
+  text-align: center;
+  background-color:black;
+  border:1px solid #8B8B8B;
+
+}
+
+.movies__button_hidden {
+  display:none;
+}

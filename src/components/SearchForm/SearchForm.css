@@ -1,0 +1,113 @@
+.search__form {
+  position: relative;
+  display: flex;
+  margin: 70px 70px 100px 70px;
+  flex-direction: column;
+}
+
+.search__input {
+  border: 1.5px solid #aaaaaa;
+  background-color: black;
+  border-radius: 8px;
+  height: 72px;
+  margin: 0;
+  padding: 0;
+  opacity: 0.9;
+  padding-left: 25px;
+  color: white;
+}
+
+.search__error {
+  color: red;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: center;
+  margin-top:5px
+}
+
+.search__button {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  height: 52px;
+  width: 100px;
+  border-radius: 5px;
+  background-color: #4285f4;
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: center;
+  border: none;
+}
+
+.search__button:hover {
+  opacity: 0.8;
+}
+
+.search__wrapper {
+  display: flex;
+}
+
+.search__radio {
+  color: #3ddc84;
+  background-color: #3ddc84;
+  accent-color: #3ddc84;
+  margin-right: 16px;
+  margin-left: 18px;
+  margin-top: 27px;
+
+  
+}
+
+.search__radio_invisible {
+  color: #3ddc84;
+  position: absolute;
+  background-color: #3ddc84;
+  accent-color: #3ddc84;
+  margin-right: 16px;
+  margin-left: 18px;
+  overflow: hidden;
+}
+
+.search__label {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  margin: 27px 0 0 0;
+}
+
+@media screen and (max-width: 984px) {
+  .search__form {
+    margin: 70px 30px 108px 30px;
+  }
+}
+
+@media screen and (max-width: 628px) {
+  .search__form {
+    margin: 70px 14px 64px 14px;
+  }
+
+  .search__button {
+    width: 80px;
+    height: 44px;
+    top: 7px;
+  }
+
+  .search__input {
+    height: 56px;
+  }
+
+  .search__label {
+    margin: 31px 0 0 0;
+  }
+  .search__radio {
+    margin-top: 31px;
+  }
+}

@@ -1,0 +1,107 @@
+.cards__card {
+  height: 281px;
+  width: 364px;
+}
+
+.cards__description {
+    display:flex;
+    margin: 16px 0 0 0;
+}
+.cards__title {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0px;
+  margin:0;
+  padding:0;
+}
+
+.cards__like_inactive {
+  background-image: url(../../images/like_inactive.svg);
+  height: 19px;
+  width: 22px;
+  background-position: center;
+  background-size: cover;
+  border: none;
+  background-color: black;
+  outline: none;
+  color: aqua;
+  margin-left:auto;
+}
+
+.cards__like_active {
+  background-image: url(../../images/like.svg);
+  height: 19px;
+  width: 22px;
+  background-position: center;
+  background-size: cover;
+  border: none;
+  background-color: black;
+  outline: none;
+  color: aqua;
+  margin-left:auto;
+}
+
+.cards__trash_inactive {
+  background-image: url(../../images/trash.svg);
+display:none;
+}
+
+.cards__trash_active {
+  background-image: url(../../images/trash.svg);
+  height: 30px;
+  width: 30px;
+  background-position: center;
+  background-size: cover;
+  border: none;
+  background-color: black;
+  outline: none;
+  margin-left:auto;
+}
+
+
+.cards__like_none {
+  display:none;
+}
+.cards__like:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.cards__picture {
+  height: 203px;
+  width: 364px;
+}
+
+.cards__movie-duration {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 13px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #8B8B8B;
+  margin:17px 0 0 0;
+}
+
+
+@media screen and (max-width:984px) {
+  .cards__picture {
+    height:190px;
+    width:339px;
+  }
+  .cards__card {
+    width: 339px;
+  }
+  
+}
+
+@media screen and (max-width:628px) {
+  .cards__picture {
+    height:168px;
+    width:300px;
+  }
+  .cards__card {
+    width: 300px;
+  }
+  
+}
