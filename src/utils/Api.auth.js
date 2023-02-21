@@ -12,6 +12,7 @@ export class ApiAuth {
   register(name, email, password) {
     return fetch(`${this._address}/signup`, {
       method: "POST",
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
       },
@@ -29,6 +30,7 @@ export class ApiAuth {
   authorize(email, password) {
     return fetch(`${this._address}/signin`, {
       method: "POST",
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
       },
@@ -49,6 +51,7 @@ export class ApiAuth {
   checkToken = async (token) => {
     const res = await fetch(`${this._address}/users/me`, {
         method: "GET",
+        credentials: 'include',
         headers: {
             "Accept": 'application/json',
           "Content-Type": "application/json",
@@ -60,6 +63,7 @@ export class ApiAuth {
   getUserInfo(token) {
     return fetch(`${this._address}/users/me `, {
       method: "GET",
+      credentials: 'include',
       headers: {
         "Accept": 'application/json',
       "Content-Type": "application/json",
@@ -72,6 +76,7 @@ export class ApiAuth {
   editProfile(token, newName, newEmail) {
     return fetch(`${this._address}/users/me`, {
       method: "PATCH",
+      credentials: 'include',
       headers: {
         "Accept": 'application/json',
       "Content-Type": "application/json",
@@ -89,6 +94,7 @@ export class ApiAuth {
   addLike(data, token) {
     return fetch(`${this._address}/movies`, {
       method: "POST",
+      credentials: 'include',
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -115,6 +121,7 @@ export class ApiAuth {
   deleteLike(id, token) {
     return fetch(`${this._address}/movies/${id}`, {
       method: "DELETE",
+      credentials: 'include',
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
