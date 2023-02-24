@@ -7,7 +7,6 @@ import { useFormWithValidation } from "../../hooks/UseForm";
 import { apiAuth } from "../../utils/Api.auth";
 function Profile(props) {
   const currentUser = React.useContext(CurrentUserContext);
-
   const [isRender, setIsRender] = useState(false);
   function linkRender() {
     setIsRender(true);

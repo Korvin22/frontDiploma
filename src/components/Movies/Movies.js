@@ -2,7 +2,8 @@ import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import {useState} from "react";
+import Preloader from "../Preloader/Preloader";
+
 function Movies(props) {
 
   function handleAmount() {
@@ -26,6 +27,7 @@ function Movies(props) {
         amount={props.amount}
         initialAmount={props.initialAmount}
       />
+      <Preloader isLoading={props.isLoading}/>
       <div className="movies__more">
         <button
           className={` ${

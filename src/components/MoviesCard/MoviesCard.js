@@ -11,6 +11,13 @@ function MovieCard(props) {
     deleteMovie(props);
   }
 
+  function handleDuration(data) {
+    if (data > 60) {
+return `${Math.floor(data/60)} ч ${data%60} м`
+    }
+    return `${data} м`
+  }
+
   return (
     <div className="cards__card">
       <img src={props.src} alt={props.name} className="cards__picture" />
@@ -37,7 +44,7 @@ function MovieCard(props) {
           onClick={handleDelete}
         ></button>
       </div>
-      <p className="cards__movie-duration">{props.duration}</p>
+      <p className="cards__movie-duration">{handleDuration(props.duration)}</p>
     </div>
   );
 }

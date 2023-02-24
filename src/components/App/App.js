@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes } from "react-router-dom";
+import { Routes, useLocation } from "react-router-dom";
 import { Route } from "react-router-dom";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
@@ -36,7 +36,7 @@ function App(props) {
   const sizeNew = size < 928 ? 5 : 12;
   const [amount, setAmount] = useState(sizeNew);
   const [stopMore, setStopMore] = useState(false);
-
+  const location = useLocation();
   function handleAmount() {
     const count = Math.round(initialMovies.length / amount);
     if (initialMovies.length > amount) {
@@ -63,6 +63,17 @@ function App(props) {
       };
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (location.pathname === "/movies") {
+      localStorage.isShortFilm === "true"
+        ? setShortMovie(true)
+        : setShortMovie(false);
+      if (localStorage.movies) {
+        setInitialMovies(JSON.parse(localStorage.movies));
+      }
+    }
+  }, [location.pathname]);
 
   function closeAllPopups() {
     setIsOpen(false);
@@ -98,31 +109,48 @@ function App(props) {
   }, []);
 
   function handleUpdateAutharization(data) {
+    setIsLoading(true);
     apiAuth
       .authorize(data.email, data.password)
       .then((res) => {
         localStorage.setItem("token", res.token);
         localStorage.setItem("email", res.email);
-        setCurrentUser(res);
+        const jwt = localStorage.getItem("token");
+
+        if (jwt) {
+          apiAuth
+            .checkToken(jwt)
+            .then((res) => {
+              setCurrentUser(res);
+              setLoggedIn(true);
+              navigate("/movies");
+            })
+            .catch((err) => console.log(err));
+        }
         setUserData({ password: res.password, email: res.email });
         handleLogin();
         navigate("/movies");
       })
-      .catch((err) => setMessage(err));
+      .catch((err) => setMessage(err))
+      .finally(() => setIsLoading(false));
   }
 
   function handleUpdateRegistration(data) {
+    setIsLoading(true);
     apiAuth
       .register(data.name, data.email, data.password)
       .then((res) => {
         setIsOpen(true);
         setSuccessReg(true);
+        localStorage.setItem("regName", res.name);
+        localStorage.setItem("regEmail", res.email);
         navigate("/signin");
       })
       .catch((err) => {
         setMessage(err);
         setSuccessReg(false);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleUpdateUser(data) {
@@ -192,10 +220,15 @@ function App(props) {
           localStorage.setItem("searchRequest", value);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   }
 
   function handleShortMovieCheckbox() {
+    const movies = JSON.parse(localStorage.getItem("movies"));
+    const filteredMovies = filterInfoByDuration(movies);
+    localStorage.setItem("movies", JSON.stringify(filteredMovies));
+    setInitialMovies(filteredMovies);
     if (!shortMovie) {
       setShortMovie(true);
     } else {
@@ -286,6 +319,7 @@ function App(props) {
                   handleLogin={handleLogin}
                   handleUpdateAutharization={handleUpdateAutharization}
                   message={message}
+                  isLoading={isLoading}
                 />
               }
             />
@@ -295,6 +329,7 @@ function App(props) {
                 <Register
                   handleUpdateRegistration={handleUpdateRegistration}
                   message={message}
+                  isLoading={isLoading}
                 />
               }
             />
@@ -314,6 +349,7 @@ function App(props) {
                     handleAmount={handleAmount}
                     amount={amount}
                     stopMore={stopMore}
+                    isLoading={isLoading}
                   />
                 </ProtectedRoute>
               }

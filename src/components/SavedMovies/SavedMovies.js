@@ -2,9 +2,10 @@ import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import SavedMoviesCardList from "../MoviesCardList/SavedMoviesCardList";
 
 function SavedMovies(props) {
-  
+
   return (
     <main>
       <Header />
@@ -13,13 +14,12 @@ function SavedMovies(props) {
         shortMovie={props.shortMovie}
         handleShortMovieCheckbox={props.handleShortMovieCheckbox}
       />
-      <MoviesCardList
+      <SavedMoviesCardList
         initialMovies={props.savedMovies}
         searchFinished={props.searchFinished}
         notFound={props.NotFound}
         handleMovieLikeToggle = {props.handleMovieLikeToggle}
         deleteMovie={props.deleteMovie}
-        image={props.savedMovies.image}
       />
       <Footer />
     </main>

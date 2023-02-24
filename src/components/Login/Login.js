@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useFormWithValidation } from "../../hooks/UseForm";
 import { useNavigate } from "react-router-dom";
 import {apiAuth} from "../../utils/Api.auth";
+import Preloader from "../Preloader/Preloader";
 
 function Login(props) {
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ function Login(props) {
             Войти
           </button>
         </form>
+        <Preloader />
         <p className="profile__error">{props.message}</p>
         <div className="register__wrapper">
           <p className="register__text">Ещё не зарегистрированы?</p>

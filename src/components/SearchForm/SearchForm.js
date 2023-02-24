@@ -28,7 +28,7 @@ function SearchForm(props) {
           id="radio"
           type="radio"
           name="radio"
-          checked={`${!!props.shortMovie ? "checked" : ""}`}
+          defaultChecked={`${!!props.shortMovie ? "checked" : ""}`}
           onClick={props.handleShortMovieCheckbox}
         />
         <p className="search__label">Короткометражки</p>
