@@ -10,16 +10,17 @@ function SearchForm(props) {
 
     props.searchMovie(values.movie);
   }
+  console.log(props.shortMovie)
   return (
     <form className="search__form" onSubmit={handleSubmit}>
       <input
         type="text"
         className="search__input"
-        placeholder="Фильм"
         name="movie"
         required
-        value={values.movie || ""}
+        value={values.movie || ''}
         onChange={handleChange}
+        placeholder={props.searchValue}
       />
       <button className="search__button">Поиск</button>
       <div className="search__wrapper">
@@ -28,7 +29,7 @@ function SearchForm(props) {
           id="radio"
           type="radio"
           name="radio"
-          defaultChecked={`${!!props.shortMovie ? "checked" : ""}`}
+          checked={`${props.shortMovie ? "checked" : ""}`}
           onClick={props.handleShortMovieCheckbox}
         />
         <p className="search__label">Короткометражки</p>

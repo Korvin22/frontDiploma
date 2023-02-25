@@ -11,6 +11,7 @@ function Movies(props) {
     props.handleAmount()
 
   }
+
   return (
     <main>
       <Header />
@@ -18,6 +19,7 @@ function Movies(props) {
         searchMovie={props.searchMovie}
         shortMovie={props.shortMovie}
         handleShortMovieCheckbox={props.handleShortMovieCheckbox}
+        searchValue={props.searchValue}
       />
       <MoviesCardList
         initialMovies={props.initialMovies}
