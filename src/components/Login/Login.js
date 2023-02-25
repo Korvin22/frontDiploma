@@ -74,7 +74,7 @@ function Login(props) {
             Войти
           </button>
         </form>
-        <Preloader />
+        <Preloader isLoading={props.isLoading}/>
         <p className="profile__error">{props.message}</p>
         <div className="register__wrapper">
           <p className="register__text">Ещё не зарегистрированы?</p>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { ExternalLink } from "react-external-link";
 function MovieCard(props) {
   const { isLiked, handleMovieLikeToggle, deleteMovie } = props;
 
@@ -13,14 +13,16 @@ function MovieCard(props) {
 
   function handleDuration(data) {
     if (data > 60) {
-return `${Math.floor(data/60)} ч ${data%60} м`
+      return `${Math.floor(data / 60)} ч ${data % 60} м`;
     }
-    return `${data} м`
+    return `${data} м`;
   }
-
+console.log(props)
   return (
     <div className="cards__card">
-      <img src={props.src} alt={props.name} className="cards__picture" />
+      <ExternalLink href={props.trailerLink} target="_blank">
+        <img src={props.src} alt={props.name} className="cards__picture" />
+      </ExternalLink>
       <div className="cards__description">
         <h2 className="cards__title">{props.nameRU}</h2>
         <button
