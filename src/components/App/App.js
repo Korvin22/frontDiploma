@@ -280,6 +280,32 @@ function App(props) {
       .finally(() => setIsLoading(false));
   }
 
+  function searchSavedMovie(value) {
+    setIsLoading(true);
+    setSearchFinished(true);
+    setAmount(sizeNew);
+    setStopMore(false);
+    const movies = JSON.parse(localStorage.getItem("savedMovies"));
+    const filteredMovies = filterInfoByName(movies, value);
+
+        if (shortMovie) {
+          const shortMovies = filterInfoByDuration(movies);
+          setSearchFinished(true);
+          setSavedMovies(shortMovies);
+        } else {
+          setSearchFinished(true);
+          if (savedMovies.length > 0) {
+            savedMovies.forEach((item) => {
+              filteredMovies.forEach((movie) => {
+                if (item.movieId === movie.id) movie.isLiked = true;
+              });
+            });
+          }
+          setShortMovie(false);
+          setSavedMovies(filteredMovies);
+        }
+      }
+  
   function handleShortMovieCheckbox() {
     const movies = JSON.parse(localStorage.getItem("movies"));
     const filteredMovies = filterInfoByDuration(movies);
@@ -435,6 +461,7 @@ function App(props) {
                     handleMovieLikeToggle={handleMovieLikeToggle}
                     deleteMovie={deleteMovie}
                     searchValue={searchValue}
+                    searchSavedMovie = {searchSavedMovie}
                   />
                 </ProtectedRoute>
               }
