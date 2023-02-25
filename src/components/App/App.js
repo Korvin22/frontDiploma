@@ -183,7 +183,9 @@ function App(props) {
         setSuccessReg(true);
         localStorage.setItem("regName", res.name);
         localStorage.setItem("regEmail", res.email);
-        navigate("/signin");
+        handleLogin();
+        setCurrentUser(data)
+        navigate("/movies");
       })
       .catch((err) => {
         setMessage(err);
