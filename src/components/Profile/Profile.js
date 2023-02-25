@@ -14,7 +14,6 @@ function Profile(props) {
 
   useEffect(() => {
     linkRender();
-    
   }, [isRender]);
   const { values, handleChange, errors, isValid, resetForm } =
     useFormWithValidation();
@@ -31,8 +30,6 @@ function Profile(props) {
       email: values.email,
     });
   }
-
-
 
   return (
     <>
@@ -70,13 +67,29 @@ function Profile(props) {
           <span className="profile__error">{errors.email}</span>
           <button
             className={`${
-              !(errors.name || errors.email || !isValid)
+              !(
+                errors.name ||
+                errors.email ||
+                !isValid ||
+                (
+                  values.name === currentUser.name &&
+                  values.email === currentUser.email
+                )
+              )
                 ? "profile-edit__button"
                 : "profile-edit__button_disabled"
             }`}
             onClick={handleEditUser}
             disabled={`${
-              !(errors.name || errors.email || !isValid) ? "" : "disabled"
+              !(
+                errors.name ||
+                errors.email ||
+                !isValid ||
+                (values.name === currentUser.name &&
+                  values.email === currentUser.email)
+              )
+                ? ""
+                : "disabled"
             }`}
           >
             Редактировать

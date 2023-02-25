@@ -38,6 +38,7 @@ function App(props) {
   const [stopMore, setStopMore] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [successMessage,setSuccessMessage] = useState('')
+  const [isSame, setIsSame] = useState(false);
   const location = useLocation();
   function handleAmount() {
     const count = Math.round(initialMovies.length / amount);
@@ -128,9 +129,12 @@ function App(props) {
     localStorage.clear();
     setLoggedIn(false);
     setSearchFinished(false);
+    setSuccessMessage('');
+    setMessage('')
     setCurrentUser({});
     setSavedMovies([]);
     setInitialMovies([]);
+    setIsSame(false)
     setSearchValue('');
     setShortMovie(false);
     navigate("/signin");
@@ -200,6 +204,9 @@ function App(props) {
   function handleUpdateUser(data) {
     setIsLoading(true);
     const jwt = localStorage.getItem("token");
+    if (data.name===currentUser.name && data.email === currentUser.email) {
+      setIsSame('true')
+    }
     apiAuth
       .editProfile(jwt, data.name, data.email)
       .then((res) => {
@@ -443,6 +450,7 @@ function App(props) {
                     isLoading={isLoading}
                     message={message}
                     successMessage = {successMessage}
+                    isSame={isSame}
                   />
                 </ProtectedRoute>
               }
