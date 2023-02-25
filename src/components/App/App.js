@@ -37,6 +37,7 @@ function App(props) {
   const [amount, setAmount] = useState(sizeNew);
   const [stopMore, setStopMore] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [successMessage,setSuccessMessage] = useState('')
   const location = useLocation();
   function handleAmount() {
     const count = Math.round(initialMovies.length / amount);
@@ -71,8 +72,7 @@ function App(props) {
         ? setShortMovie(true)
         : setShortMovie(false);
       if (localStorage.movies) {
-        setInitialMovies(JSON.parse(localStorage.movies));
-        
+        setInitialMovies(JSON.parse(localStorage.movies));   
       }
       console.log(location.pathname === "/movies", shortMovie, initialMovies);
       console.log(location.key);
@@ -101,14 +101,17 @@ function App(props) {
     mountSearchResult();
     setSearchValue(localStorage.searchRequest);
 
-    console.log(localStorage);
+    console.log(localStorage, 'movies');
   }, [location.path==="movies"]);
 
   useEffect(() => {
     setSearchFinished(true);
+    if (localStorage.savedMovies) {
+      setSavedMovies(JSON.parse(localStorage.savedMovies));
+    }
     mountSavedSearchResult();
 
-    console.log(localStorage);
+    console.log(localStorage.savedMovies, 'saved-movies');
   }, [location.path==="saved-movies"]);
 
   function closeAllPopups() {
@@ -204,6 +207,7 @@ function App(props) {
           name: data.name,
           email: data.email,
         });
+        setSuccessMessage('данные успешно изменены');
       })
       .catch((err) => setMessage(err))
       .finally((res) => {
@@ -322,7 +326,7 @@ function App(props) {
           });
           console.log(data)
           localStorage.setItem("movies", JSON.stringify(movies));
-
+          console.log(savedMovies)
           setInitialMovies([...movies]);
           setSavedMovies([...savedMovies, data]);
           console.log(savedMovies)
@@ -438,6 +442,7 @@ function App(props) {
                     handleUpdateUser={handleUpdateUser}
                     isLoading={isLoading}
                     message={message}
+                    successMessage = {successMessage}
                   />
                 </ProtectedRoute>
               }

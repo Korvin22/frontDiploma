@@ -14,6 +14,7 @@ function Profile(props) {
 
   useEffect(() => {
     linkRender();
+    
   }, [isRender]);
   const { values, handleChange, errors, isValid, resetForm } =
     useFormWithValidation();
@@ -82,6 +83,7 @@ function Profile(props) {
           </button>
         </form>
         <p className="profile__error">{props.message}</p>
+        <p className="profile__success">{props.successMessage}</p>
         <Link className="profile__link" to="/signin" onClick={props.signOut}>
           Выйти из аккаунта
         </Link>
