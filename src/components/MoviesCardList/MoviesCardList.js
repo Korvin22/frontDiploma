@@ -2,7 +2,10 @@ import MovieCard from "../MoviesCard/MoviesCard";
 
 import { useState } from "react";
 
+
+
 function MoviesCardList(props) {
+
   return (
     <div className="cards">
       {props.searchFinished ? (
@@ -32,7 +35,8 @@ function MoviesCardList(props) {
       ) : (
         <p></p>
       )}
-      <p>{props.initialMovies.length === 0 ? "Ничего не найдено" : ""}</p>
+      
+      <p className={`${props.searchFinished ? '' : 'cards_hidden'}`}>{props.initialMovies.length === 0 ? "Ничего не найдено" : ""}</p>
     </div>
   );
 }

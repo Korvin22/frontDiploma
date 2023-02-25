@@ -30,7 +30,11 @@ function Movies(props) {
         initialAmount={props.initialAmount}
       />
       <Preloader isLoading={props.isLoading}/>
-      <div className="movies__more">
+      <div className={` ${
+            props.searchFinished
+              ? "movies__more"
+              : "movies__more_hidden"
+          }`}>
         <button
           className={` ${
             props.stopMore

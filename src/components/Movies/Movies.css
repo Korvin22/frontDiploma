@@ -23,3 +23,7 @@
 .movies__button_hidden {
   display:none;
 }
+
+.movies__more_hidden {
+  display:none;
+}

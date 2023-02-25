@@ -8,7 +8,9 @@
     column-gap: 24px;
   
   }
-  
+  .cards_hidden {
+    display:none;
+  }
   @media screen and (max-width: 984px) {
     .cards {
       margin: 0 30px 67px 30px;
