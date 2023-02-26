@@ -188,6 +188,7 @@ function App(props) {
       .then((res) => {
         setIsOpen(true);
         setSuccessReg(true);
+        handleUpdateAutharization(data);
         localStorage.setItem("regName", res.name);
         localStorage.setItem("regEmail", res.email);
         setCurrentUser(data);
@@ -198,7 +199,7 @@ function App(props) {
       })
       .finally(() => {
         setIsLoading(false)});
-        handleUpdateAutharization(data);
+
   }
 
   function handleUpdateUser(data) {
