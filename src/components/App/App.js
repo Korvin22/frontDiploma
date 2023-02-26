@@ -137,7 +137,7 @@ function App(props) {
     setIsSame(false);
     setSearchValue("");
     setShortMovie(false);
-    navigate("/signin");
+    navigate("/");
   }
   useEffect(() => {
     const jwt = localStorage.getItem("token");
