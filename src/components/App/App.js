@@ -37,7 +37,7 @@ function App(props) {
   const [amount, setAmount] = useState(sizeNew);
   const [stopMore, setStopMore] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [successMessage,setSuccessMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState("");
   const [isSame, setIsSame] = useState(false);
   const location = useLocation();
   function handleAmount() {
@@ -73,7 +73,7 @@ function App(props) {
         ? setShortMovie(true)
         : setShortMovie(false);
       if (localStorage.movies) {
-        setInitialMovies(JSON.parse(localStorage.movies));   
+        setInitialMovies(JSON.parse(localStorage.movies));
       }
       console.log(location.pathname === "/movies", shortMovie, initialMovies);
       console.log(location.key);
@@ -102,8 +102,8 @@ function App(props) {
     mountSearchResult();
     setSearchValue(localStorage.searchRequest);
 
-    console.log(localStorage, 'movies');
-  }, [location.path==="movies"]);
+    console.log(localStorage, "movies");
+  }, [location.path === "movies"]);
 
   useEffect(() => {
     setSearchFinished(true);
@@ -112,8 +112,8 @@ function App(props) {
     }
     mountSavedSearchResult();
 
-    console.log(localStorage.savedMovies, 'saved-movies');
-  }, [location.path==="saved-movies"]);
+    console.log(localStorage.savedMovies, "saved-movies");
+  }, [location.path === "saved-movies"]);
 
   function closeAllPopups() {
     setIsOpen(false);
@@ -129,13 +129,13 @@ function App(props) {
     localStorage.clear();
     setLoggedIn(false);
     setSearchFinished(false);
-    setSuccessMessage('');
-    setMessage('')
+    setSuccessMessage("");
+    setMessage("");
     setCurrentUser({});
     setSavedMovies([]);
     setInitialMovies([]);
-    setIsSame(false)
-    setSearchValue('');
+    setIsSame(false);
+    setSearchValue("");
     setShortMovie(false);
     navigate("/signin");
   }
@@ -190,22 +190,22 @@ function App(props) {
         setSuccessReg(true);
         localStorage.setItem("regName", res.name);
         localStorage.setItem("regEmail", res.email);
-        handleLogin();
-        setCurrentUser(data)
-        navigate("/movies");
+        setCurrentUser(data);
       })
       .catch((err) => {
         setMessage(err);
         setSuccessReg(false);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false)});
+        handleUpdateAutharization(data);
   }
 
   function handleUpdateUser(data) {
     setIsLoading(true);
     const jwt = localStorage.getItem("token");
-    if (data.name===currentUser.name && data.email === currentUser.email) {
-      setIsSame('true')
+    if (data.name === currentUser.name && data.email === currentUser.email) {
+      setIsSame("true");
     }
     apiAuth
       .editProfile(jwt, data.name, data.email)
@@ -214,7 +214,7 @@ function App(props) {
           name: data.name,
           email: data.email,
         });
-        setSuccessMessage('данные успешно изменены');
+        setSuccessMessage("данные успешно изменены");
       })
       .catch((err) => setMessage(err))
       .finally((res) => {
@@ -288,24 +288,24 @@ function App(props) {
     const movies = JSON.parse(localStorage.getItem("savedMovies"));
     const filteredMovies = filterInfoByName(movies, value);
 
-        if (shortMovie) {
-          const shortMovies = filterInfoByDuration(movies);
-          setSearchFinished(true);
-          setSavedMovies(shortMovies);
-        } else {
-          setSearchFinished(true);
-          if (savedMovies.length > 0) {
-            savedMovies.forEach((item) => {
-              filteredMovies.forEach((movie) => {
-                if (item.movieId === movie.id) movie.isLiked = true;
-              });
-            });
-          }
-          setShortMovie(false);
-          setSavedMovies(filteredMovies);
-        }
+    if (shortMovie) {
+      const shortMovies = filterInfoByDuration(movies);
+      setSearchFinished(true);
+      setSavedMovies(shortMovies);
+    } else {
+      setSearchFinished(true);
+      if (savedMovies.length > 0) {
+        savedMovies.forEach((item) => {
+          filteredMovies.forEach((movie) => {
+            if (item.movieId === movie.id) movie.isLiked = true;
+          });
+        });
       }
-  
+      setShortMovie(false);
+      setSavedMovies(filteredMovies);
+    }
+  }
+
   function handleShortMovieCheckbox() {
     const movies = JSON.parse(localStorage.getItem("movies"));
     const filteredMovies = filterInfoByDuration(movies);
@@ -314,11 +314,11 @@ function App(props) {
     if (!shortMovie) {
       setShortMovie(true);
       localStorage.setItem("shortMovie", true);
-      console.log(localStorage)
+      console.log(localStorage);
     } else {
       setShortMovie(false);
       localStorage.setItem("shortMovie", false);
-      console.log(localStorage)
+      console.log(localStorage);
     }
   }
 
@@ -357,12 +357,12 @@ function App(props) {
               data.isLiked = true;
             }
           });
-          console.log(data)
+          console.log(data);
           localStorage.setItem("movies", JSON.stringify(movies));
-          console.log(savedMovies)
+          console.log(savedMovies);
           setInitialMovies([...movies]);
           setSavedMovies([...savedMovies, data]);
-          console.log(savedMovies)
+          console.log(savedMovies);
           localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
           console.log(localStorage.savedMovies);
         })
@@ -461,7 +461,7 @@ function App(props) {
                     handleMovieLikeToggle={handleMovieLikeToggle}
                     deleteMovie={deleteMovie}
                     searchValue={searchValue}
-                    searchSavedMovie = {searchSavedMovie}
+                    searchSavedMovie={searchSavedMovie}
                   />
                 </ProtectedRoute>
               }
@@ -476,7 +476,7 @@ function App(props) {
                     handleUpdateUser={handleUpdateUser}
                     isLoading={isLoading}
                     message={message}
-                    successMessage = {successMessage}
+                    successMessage={successMessage}
                     isSame={isSame}
                   />
                 </ProtectedRoute>
