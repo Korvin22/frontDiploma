@@ -17,7 +17,6 @@ function MovieCard(props) {
     }
     return `${data} м`;
   }
-console.log(props)
   return (
     <div className="cards__card">
       <ExternalLink href={props.trailerLink} target="_blank">

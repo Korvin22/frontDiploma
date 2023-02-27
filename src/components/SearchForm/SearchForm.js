@@ -1,16 +1,28 @@
 import { moviesApi } from "../../utils/MoviesApi";
 import { useState } from "react";
 import { useFormWithValidation } from "../../hooks/UseForm";
-
+import {useEffect} from "react";
+import {useLocation} from "react-router-dom";
 function SearchForm(props) {
-  const { values, handleChange, errors } = useFormWithValidation();
-
+  const location = useLocation();
+  const { values, setValues, handleChange, errors } = useFormWithValidation();
+  
+console.log(props.searchValue)
   function handleSubmit(e) {
     e.preventDefault();
 
     props.searchMovie(values.movie);
+    
   }
-  console.log(props.shortMovie)
+
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      console.log(props.searchValue, 'searchValue')
+      setValues({ movie: props.searchValue });
+      console.log(values);
+    }
+  }, [location.pathname]);
+
   return (
     <form className="search__form" onSubmit={handleSubmit}>
       <input
@@ -20,7 +32,6 @@ function SearchForm(props) {
         required
         value={values.movie || ''}
         onChange={handleChange}
-        placeholder={props.searchValue}
       />
       <button className="search__button">Поиск</button>
       <div className="search__wrapper">

@@ -25,18 +25,22 @@ function App(props) {
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [shortMovie, setShortMovie] = useState(false);
+  const [shortSavedMovie, setShortSavedMovie] = useState(false);
   const [successReg, setSuccessReg] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [initialMovies, setInitialMovies] = useState([]);
   const [searchFinished, setSearchFinished] = useState(false);
+  const [savedSearchFinished, setSavedSearchFinished] = useState(false);
   const [notFound, setNotFound] = useState("");
   const [savedMovies, setSavedMovies] = useState([]);
+  const [savedMoviesSearchResult, setSavedMoviesSearchResult] = useState([]);
   const sizeNew = size < 928 ? 5 : 12;
   const [amount, setAmount] = useState(sizeNew);
   const [stopMore, setStopMore] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue,setSearchValue] = useState(""); 
+  const [savedSearchValue,setSavedSearchValue] = useState(""); 
   const [successMessage, setSuccessMessage] = useState("");
   const [isSame, setIsSame] = useState(false);
   const location = useLocation();
@@ -72,6 +76,7 @@ function App(props) {
       localStorage.shortMovie === "true"
         ? setShortMovie(true)
         : setShortMovie(false);
+      loadSavedMovies();
       if (localStorage.movies) {
         setInitialMovies(JSON.parse(localStorage.movies));
       }
@@ -82,15 +87,15 @@ function App(props) {
 
   function mountSavedSearchResult() {
     if (location.pathname === "/saved-movies") {
-      localStorage.isShortFilm === "true"
-        ? setShortMovie(true)
-        : setShortMovie(false);
+      localStorage.shortSavedMovie === "true"
+        ? setShortSavedMovie(true)
+        : setShortSavedMovie(false);
       if (localStorage.savedMovies) {
-        setSavedMovies(JSON.parse(localStorage.savedMovies));
+        setSavedMovies(localStorage.savedMovies);
       }
       console.log(
         location.pathname === "/saved-movies",
-        shortMovie,
+        shortSavedMovie,
         savedMovies
       );
       console.log(location.key);
@@ -100,18 +105,33 @@ function App(props) {
   useEffect(() => {
     setSearchFinished(true);
     mountSearchResult();
+    console.log(localStorage.searchRequest);
     setSearchValue(localStorage.searchRequest);
-
     console.log(localStorage, "movies");
   }, [location.path === "movies"]);
 
   useEffect(() => {
-    setSearchFinished(true);
+    setSavedSearchFinished(true);
+    const token = localStorage.getItem("token");
+    setShortSavedMovie(false);
+    if (token) {
+      apiAuth
+        .getSavedMovies(token)
+        .then((data) => {
+          console.log(data, "loadsaved");
+          setSavedMovies(data);
+          setSavedMoviesSearchResult(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     if (localStorage.savedMovies) {
-      setSavedMovies(JSON.parse(localStorage.savedMovies));
+      setSavedMovies(localStorage.savedMovies);
+      setSavedMoviesSearchResult(localStorage.savedMovies);
     }
     mountSavedSearchResult();
-
+    setSavedSearchValue(localStorage.searchSavedRequest);
     console.log(localStorage.savedMovies, "saved-movies");
   }, [location.path === "saved-movies"]);
 
@@ -136,9 +156,32 @@ function App(props) {
     setInitialMovies([]);
     setIsSame(false);
     setSearchValue("");
+    setSavedSearchValue("");
     setShortMovie(false);
-    navigate("/");
+    setShortSavedMovie(false);
+
   }
+
+  function loadSavedMovies() {
+    const token = localStorage.getItem("token");
+
+    setShortSavedMovie(false);
+    setSavedSearchFinished(false);
+
+    if (token) {
+      apiAuth
+        .getSavedMovies(token)
+        .then((data) => {
+          console.log(data, "loadsaved");
+          setSavedMovies(data);
+          setSavedMoviesSearchResult(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+
   useEffect(() => {
     const jwt = localStorage.getItem("token");
 
@@ -148,7 +191,6 @@ function App(props) {
         .then((res) => {
           setCurrentUser(res);
           setLoggedIn(true);
-          navigate("/movies");
         })
         .catch((err) => console.log(err));
     }
@@ -173,6 +215,18 @@ function App(props) {
             })
             .catch((err) => console.log(err));
         }
+        if (jwt) {
+          apiAuth
+            .getSavedMovies(jwt)
+            .then((res) => {
+             console.log(res);
+             const savedMovies = JSON.stringify(res)
+             localStorage.setItem("savedMovies", savedMovies)
+             console.log(localStorage.savedMovies)
+            })
+            .catch((err) => console.log(err));
+        }
+        setSearchFinished(true);
         setUserData({ password: res.password, email: res.email });
         handleLogin();
         navigate("/movies");
@@ -198,8 +252,8 @@ function App(props) {
         setSuccessReg(false);
       })
       .finally(() => {
-        setIsLoading(false)});
-
+        setIsLoading(false);
+      });
   }
 
   function handleUpdateUser(data) {
@@ -245,7 +299,6 @@ function App(props) {
       .getUserInfo()
       .then((res) => {
         localStorage.setItem("movies", JSON.stringify(res));
-        localStorage.setItem("searchRequest", value);
         const movies = JSON.parse(localStorage.getItem("movies"));
         movies.forEach((item) => {
           item.isLiked = false;
@@ -260,6 +313,8 @@ function App(props) {
           localStorage.setItem("movies", JSON.stringify(shortMovies));
           setInitialMovies(shortMovies);
           localStorage.setItem("searchRequest", value);
+          setSearchValue(localStorage.searchRequest)
+          console.log(localStorage.searchRequest)
         } else {
           setSearchFinished(true);
           if (savedMovies.length > 0) {
@@ -271,10 +326,13 @@ function App(props) {
           }
           setShortMovie(false);
           setInitialMovies(filteredMovies);
+          
           localStorage.setItem("movies", JSON.stringify(filteredMovies));
           localStorage.setItem("searchRequest", value);
           localStorage.setItem("shortMovie", false);
-          localStorage.setItem("", JSON.stringify(savedMovies));
+          localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
+          setSearchValue(localStorage.searchRequest)
+          console.log(localStorage.searchRequest)
         }
       })
       .catch((err) => console.log(err))
@@ -286,25 +344,40 @@ function App(props) {
     setSearchFinished(true);
     setAmount(sizeNew);
     setStopMore(false);
-    const movies = JSON.parse(localStorage.getItem("savedMovies"));
-    const filteredMovies = filterInfoByName(movies, value);
+    const token = localStorage.getItem("token");
+    if (token) {
+      apiAuth
+        .getSavedMovies(token)
+        .then((data) => {
+          console.log(data, "loadsaved");
+          setSavedMovies(data);
+          setSavedMoviesSearchResult(data);
+          const filteredMovies = filterInfoByName(savedMovies, value);
 
-    if (shortMovie) {
-      const shortMovies = filterInfoByDuration(movies);
-      setSearchFinished(true);
-      setSavedMovies(shortMovies);
-    } else {
-      setSearchFinished(true);
-      if (savedMovies.length > 0) {
-        savedMovies.forEach((item) => {
-          filteredMovies.forEach((movie) => {
-            if (item.movieId === movie.id) movie.isLiked = true;
-          });
+          if (shortSavedMovie) {
+            const shortSavedMovies = filterInfoByDuration(filteredMovies);
+            setSavedSearchFinished(true);
+      
+            localStorage.setItem("shortSavedMovie", true);
+            localStorage.setItem("savedMovies", filteredMovies);
+            setSavedMovies(shortSavedMovies);
+            localStorage.setItem("searchSavedRequest", value);
+            setSavedSearchValue(localStorage.searchSavedRequest);
+          } else {
+            setSavedSearchFinished(true);
+            setSavedMovies(filteredMovies);
+            setIsLoading(false);
+            localStorage.setItem("savedMovies", filteredMovies);
+            localStorage.setItem("searchSavedRequest", value);
+            localStorage.setItem("shortSavedMovie", false);
+            setSavedSearchValue(localStorage.searchSavedRequest);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      }
-      setShortMovie(false);
-      setSavedMovies(filteredMovies);
     }
+    
   }
 
   function handleShortMovieCheckbox() {
@@ -320,6 +393,22 @@ function App(props) {
       setShortMovie(false);
       localStorage.setItem("shortMovie", false);
       console.log(localStorage);
+    }
+  }
+
+  function handleShortSavedMovieCheckbox() {
+    const filteredMovies = filterInfoByDuration(savedMovies);
+    localStorage.setItem("savedMovies", filteredMovies);
+    setSavedMovies(filteredMovies);
+    setSavedMoviesSearchResult(filteredMovies)
+    if (!shortSavedMovie) {
+      setShortSavedMovie(true);
+      localStorage.setItem("shortSavedMovie", true);
+      console.log(shortSavedMovie);
+    } else {
+      setShortSavedMovie(false);
+      localStorage.setItem("shortSavedMovie", false);
+      console.log(shortSavedMovie);
     }
   }
 
@@ -463,6 +552,13 @@ function App(props) {
                     deleteMovie={deleteMovie}
                     searchValue={searchValue}
                     searchSavedMovie={searchSavedMovie}
+                    loadSavedMovies={loadSavedMovies}
+                    shortSavedMovie={shortSavedMovie}
+                    savedMoviesSearchResult={savedMoviesSearchResult}
+                    setSavedSearchFinished={setSavedSearchFinished}
+                    savedSearchFinished={savedSearchFinished}
+                    savedSearchValue={savedSearchValue}
+                    handleShortSavedMovieCheckbox={handleShortSavedMovieCheckbox}
                   />
                 </ProtectedRoute>
               }

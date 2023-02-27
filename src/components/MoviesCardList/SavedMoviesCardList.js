@@ -1,7 +1,6 @@
 import MovieCard from "../MoviesCard/MoviesCard";
 
 function SavedMoviesCardList(props) {
-  console.log(props)
   return (
     <div className="cards">
       {props.searchFinished ? (

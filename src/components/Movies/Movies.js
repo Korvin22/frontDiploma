@@ -5,7 +5,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Preloader from "../Preloader/Preloader";
 
 function Movies(props) {
-
+console.log(props.searchValue, 'movie')
   function handleAmount() {
 
     props.handleAmount()

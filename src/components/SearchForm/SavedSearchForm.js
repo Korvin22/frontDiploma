@@ -4,10 +4,10 @@ import { useFormWithValidation } from "../../hooks/UseForm";
 
 function SavedSearchForm(props) {
   const { values, handleChange, errors } = useFormWithValidation();
-
+  console.log(props.shortSavedMovie);
   function handleSubmit(e) {
     e.preventDefault();
-
+    props.setSavedSearchFinished(true);
     props.searchSavedMovie(values.movie);
   }
   console.log(props.shortMovie)
@@ -20,7 +20,7 @@ function SavedSearchForm(props) {
         required
         value={values.movie || ''}
         onChange={handleChange}
-        placeholder={props.searchValue}
+
       />
       <button className="search__button">Поиск</button>
       <div className="search__wrapper">
@@ -29,8 +29,8 @@ function SavedSearchForm(props) {
           id="radio"
           type="radio"
           name="radio"
-          checked={`${props.shortMovie ? "checked" : ""}`}
-          onClick={props.handleShortMovieCheckbox}
+          checked={`${props.shortSavedMovie ? "checked" : ""}`}
+          onClick={props.handleShortSavedMovieCheckbox}
         />
         <p className="search__label">Короткометражки</p>
       </div>

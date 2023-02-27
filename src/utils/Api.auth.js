@@ -73,6 +73,20 @@ export class ApiAuth {
       return this._getResponseData(res);
     });
   }
+  getSavedMovies(token) {
+    return fetch(`${this._address}/movies `, {
+      method: "GET",
+      credentials: 'include',
+      headers: {
+        "Accept": 'application/json',
+      "Content-Type": "application/json",
+      'Authorization': `Bearer ${token}`
+    }
+    }).then((res) => {
+      return this._getResponseData(res);
+    });
+  }
+
   editProfile(token, newName, newEmail) {
     return fetch(`${this._address}/users/me`, {
       method: "PATCH",

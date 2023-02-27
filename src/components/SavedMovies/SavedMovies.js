@@ -4,9 +4,12 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SavedMoviesCardList from "../MoviesCardList/SavedMoviesCardList";
 import SavedSearchForm from "../SearchForm/SavedSearchForm";
+import { useEffect } from "react";
 
 function SavedMovies(props) {
-
+  useEffect(() => props.loadSavedMovies(), []);
+  const savedMovies = props.savedSearchFinished ? props.savedMovies : props.savedMoviesSearchResult;
+console.log(props.shortSavedMovie)
   return (
     <main>
       <Header />
@@ -15,9 +18,14 @@ function SavedMovies(props) {
         shortMovie={props.shortMovie}
         handleShortMovieCheckbox={props.handleShortMovieCheckbox}
         searchSavedMovie = {props.searchSavedMovie}
+        savedSearchFinished={props.savedSearchFinished}
+        setSavedSearchFinished={props.setSavedSearchFinished}
+        savedSearchValue={props.savedSearchValue}
+        handleShortSavedMovieCheckbox={props.handleShortSavedMovieCheckbox}
+        shortSavedMovie={props.shortSavedMovie}
       />
       <SavedMoviesCardList
-        initialMovies={props.savedMovies}
+        initialMovies={savedMovies}
         searchFinished={props.searchFinished}
         notFound={props.NotFound}
         handleMovieLikeToggle = {props.handleMovieLikeToggle}
