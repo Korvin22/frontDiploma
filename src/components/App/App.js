@@ -108,7 +108,7 @@ function App(props) {
     console.log(localStorage.searchRequest);
     setSearchValue(localStorage.searchRequest);
     console.log(localStorage, "movies");
-  }, [location.path === "movies"]);
+  }, [location.pathname === "movies"]);
 
   useEffect(() => {
     setSavedSearchFinished(true);
@@ -133,13 +133,15 @@ function App(props) {
     mountSavedSearchResult();
     setSavedSearchValue(localStorage.searchSavedRequest);
     console.log(localStorage.savedMovies, "saved-movies");
-  }, [location.path === "saved-movies"]);
+  }, [location.pathname === "saved-movies"]);
 
   function closeAllPopups() {
     setIsOpen(false);
   }
   function handleLogin() {
     setLoggedIn(true);
+    localStorage.setItem("loggedIn",loggedIn);
+    console.log(localStorage.loggedIn)
   }
 
   function signOut() {
@@ -204,7 +206,6 @@ function App(props) {
         localStorage.setItem("token", res.token);
         localStorage.setItem("email", res.email);
         const jwt = localStorage.getItem("token");
-
         if (jwt) {
           apiAuth
             .checkToken(jwt)

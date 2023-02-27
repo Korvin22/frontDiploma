@@ -21,7 +21,7 @@ console.log(props.searchValue)
       setValues({ movie: props.searchValue });
       console.log(values);
     }
-  }, [location.pathname]);
+  }, [location, props.searchValue]);
 
   return (
     <form className="search__form" onSubmit={handleSubmit}>
