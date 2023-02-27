@@ -26,7 +26,6 @@ function Register(props) {
       email: values.email,
       password: values.password,
     });
-    navigate("/movies");
   }
 
   return (

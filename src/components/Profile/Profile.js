@@ -1,11 +1,12 @@
 import Header from "../Header/Header";
 import line from "../../images/line.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useFormWithValidation } from "../../hooks/UseForm";
 import { apiAuth } from "../../utils/Api.auth";
 function Profile(props) {
+  const location = useLocation();
   const currentUser = React.useContext(CurrentUserContext);
   const [isRender, setIsRender] = useState(false);
   function linkRender() {
@@ -15,13 +16,21 @@ function Profile(props) {
   useEffect(() => {
     linkRender();
   }, [isRender]);
-  const { values, handleChange, errors, isValid, resetForm } =
+  const { values, handleChange, errors, isValid, resetForm, setValues } =
     useFormWithValidation();
   const [edit, setEdit] = useState(false);
 
   function handleEditUser() {
     setEdit(true);
   }
+
+  useEffect(() => {
+    if (location.pathname === "/profile") {
+      console.log(props.searchValue, "searchValue");
+      setValues({ name: currentUser.name, email: currentUser.email });
+      console.log(values);
+    }
+  }, [location, props.searchValue]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -71,10 +80,8 @@ function Profile(props) {
                 errors.name ||
                 errors.email ||
                 !isValid ||
-                (
-                  values.name === currentUser.name &&
-                  values.email === currentUser.email
-                )
+                (values.name === currentUser.name &&
+                  values.email === currentUser.email)
               )
                 ? "profile-edit__button"
                 : "profile-edit__button_disabled"

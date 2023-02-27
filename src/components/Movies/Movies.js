@@ -28,6 +28,7 @@ console.log(props.searchValue, 'movie')
         handleMovieLikeToggle = {props.handleMovieLikeToggle}
         amount={props.amount}
         initialAmount={props.initialAmount}
+        isVisible={props.isVisible}
       />
       <Preloader isLoading={props.isLoading}/>
       <div className={` ${

@@ -8,8 +8,9 @@ import { useEffect } from "react";
 
 function SavedMovies(props) {
   useEffect(() => props.loadSavedMovies(), []);
+  console.log(props.savedSearchFinished, props.savedMovies)
   const savedMovies = props.savedSearchFinished ? props.savedMovies : props.savedMoviesSearchResult;
-console.log(props.shortSavedMovie)
+console.log(props.savedMovies)
   return (
     <main>
       <Header />
