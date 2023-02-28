@@ -7,7 +7,9 @@ import SavedSearchForm from "../SearchForm/SavedSearchForm";
 import { useEffect } from "react";
 
 function SavedMovies(props) {
-  useEffect(() => props.loadSavedMovies(), []);
+  useEffect(() => {props.loadSavedMovies();
+    props.setSavedSearchFinished(true);
+  }, []);
   console.log(props.savedSearchFinished, props.savedMovies)
   const savedMovies = props.savedSearchFinished ? props.savedMovies : props.savedMoviesSearchResult;
 console.log(props.savedMovies)
@@ -27,7 +29,7 @@ console.log(props.savedMovies)
       />
       <SavedMoviesCardList
         initialMovies={savedMovies}
-        searchFinished={props.searchFinished}
+        savedSearchFinished={props.savedSearchFinished}
         notFound={props.NotFound}
         handleMovieLikeToggle = {props.handleMovieLikeToggle}
         deleteMovie={props.deleteMovie}

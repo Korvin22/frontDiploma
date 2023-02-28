@@ -146,6 +146,7 @@ function App(props) {
     localStorage.removeItem("token");
     localStorage.removeItem("movies");
     localStorage.removeItem("savedMovies");
+    localStorage.removeItem("loggedIn");
     localStorage.clear();
     setLoggedIn(false);
     setSearchFinished(false);
@@ -197,7 +198,6 @@ function App(props) {
   }, []);
 
   function handleUpdateAutharization(data) {
-    setIsLoading(true);
     apiAuth
       .authorize(data.email, data.password)
       .then((res) => {
@@ -231,7 +231,6 @@ function App(props) {
         navigate("/movies");
       })
       .catch((err) => setMessage(err))
-      .finally(() => setIsLoading(false));
   }
 
   function handleUpdateRegistration(data) {

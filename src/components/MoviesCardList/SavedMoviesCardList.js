@@ -3,7 +3,7 @@ import MovieCard from "../MoviesCard/MoviesCard";
 function SavedMoviesCardList(props) {
   return (
     <div className="cards">
-      {props.searchFinished ? (
+      {props.savedSearchFinished ? (
         props.initialMovies.slice(0, props.amount).map((movie) => {
           return (
             <MovieCard
