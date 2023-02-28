@@ -101,7 +101,7 @@ function App(props) {
   }
 
   useEffect(() => {
-    setSearchFinished(true);
+
     mountSearchResult();
     console.log(localStorage.searchRequest);
     setSearchValue(localStorage.searchRequest);

@@ -6,3 +6,4 @@ https://github.com/Korvin22/movies-explorer-frontend/pull/1
 https://github.com/Korvin22/frontDiploma/pull/1
 #Выложенная на сервер работающая фронтенд часть 
 https://diplomagud.nomoredomains.work
+#Протестированы описанные ошибочные кейсы проекта, можно на пользователях review@gmail.com, #review2@gmail.com, пароль 12345678, у которых были (но исчезли) сохранённые карточки со слогом "ро" #в названии. 
