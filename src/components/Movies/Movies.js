@@ -3,12 +3,20 @@ import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Preloader from "../Preloader/Preloader";
-
+import { useEffect } from "react";
+import {useWindowSize} from "../../hooks/UseLayout";
 function Movies(props) {
-console.log(props.searchValue, 'movie')
+  const size = useWindowSize();
+
+useEffect(()=> {
+  handleAmount(size);
+  props.setSearchFinished(true);
+  props.mountSearchResult(size);
+
+}, [])
   function handleAmount() {
 
-    props.handleAmount()
+    props.handleAmount(size)
 
   }
 

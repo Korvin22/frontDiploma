@@ -26,11 +26,18 @@ function Profile(props) {
 
   useEffect(() => {
     if (location.pathname === "/profile") {
-      console.log(props.searchValue, "searchValue");
+      props.setMessage('');
+      props.setSuccessMessage('')
+      console.log(currentUser)
       setValues({ name: currentUser.name, email: currentUser.email });
+      console.log(values)
       console.log(values);
     }
   }, [location, props.searchValue]);
+
+  useEffect(() => {
+      setValues({ name: currentUser.name, email: currentUser.email });
+  }, [currentUser]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -102,8 +109,8 @@ function Profile(props) {
             Редактировать
           </button>
         </form>
-        <p className="profile__error">{props.message}</p>
-        <p className="profile__success">{props.successMessage}</p>
+        <p className="profile__error">{props.message || ''}</p>
+        <p className="profile__success">{props.successMessage || ''}</p>
         <Link className="profile__link" to="/signin" onClick={props.signOut}>
           Выйти из аккаунта
         </Link>

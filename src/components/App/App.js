@@ -45,8 +45,9 @@ function App(props) {
   const [isSame, setIsSame] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const location = useLocation();
-  function handleAmount() {
+  function handleAmount(size) {
     /*const count = Math.round(initialMovies.length / amount);*/
+    console.log(size)
     const count = initialMovies.length + amount;
     if (initialMovies.length > amount) {
       const sizeNew = size < 928 ? 2 : 3;
@@ -77,17 +78,25 @@ function App(props) {
     }
   }, [isOpen]);
 
-  function mountSearchResult() {
+useEffect(()=>{
+  setMessage('');
+  setSuccessMessage('')
+}, [location.path])
+
+  function mountSearchResult(size) {
     if (location.pathname === "/movies") {
+      setAmount(size<928?5:12);
       localStorage.shortMovie === "true"
         ? setShortMovie(true)
         : setShortMovie(false);
-      loadSavedMovies();
       if (localStorage.movies) {
-        setInitialMovies(JSON.parse(localStorage.movies));
+        setIsVisible(true)
+        const movies = JSON.parse(localStorage.movies);
+        setInitialMovies(movies);
+        console.log(movies, initialMovies)
       }
       console.log(location.pathname === "/movies", shortMovie, initialMovies);
-      console.log(location.key);
+      
     }
   }
 
@@ -106,37 +115,15 @@ function App(props) {
   }
 
   useEffect(() => {
-
-    mountSearchResult();
-    console.log(localStorage.searchRequest);
-    setSearchValue(localStorage.searchRequest);
-    console.log(localStorage, "movies");
-  }, [location.pathname === "movies"]);
-
-  useEffect(() => {
-    setSavedSearchFinished(true);
-
-    const token = localStorage.getItem("token");
-    setShortSavedMovie(false);
-    if (token) {
-      apiAuth
-        .getSavedMovies(token)
-        .then((data) => {
-          console.log(data, "loadsaved");
-          
-          setSavedMovies(data);
-          setSavedMoviesSearchResult(data);
-          console.log(data)
-          mountSavedSearchResult();
-          console.log(localStorage.savedMovies)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-
-
-  }, [location.pathname === "saved-movies"]);
+    console.log(size);
+    console.log(amount);
+    if (location.pathname === "/movies") {
+      localStorage.shortMovie === "true"
+        ? setShortMovie(true)
+        : setShortMovie(false);
+    loadSavedMovies();
+    setSearchValue(localStorage.searchRequest);}
+  }, [location.pathname]);
 
   function closeAllPopups() {
     setIsOpen(false);
@@ -191,15 +178,19 @@ function App(props) {
 
   useEffect(() => {
     const jwt = localStorage.getItem("token");
-
+    
     if (jwt) {
       apiAuth
         .checkToken(jwt)
         .then((res) => {
           setCurrentUser(res);
           setLoggedIn(true);
+          localStorage.setItem('userName', res.name);
+          localStorage.setItem('userEmail', res.email);
+          setMessage('')
         })
         .catch((err) => console.log(err));
+        
     }
   }, []);
 
@@ -220,17 +211,7 @@ function App(props) {
             })
             .catch((err) => console.log(err));
         }
-        if (jwt) {
-          apiAuth
-            .getSavedMovies(jwt)
-            .then((res) => {
-             console.log(res);
-             const savedMovies = JSON.stringify(res)
-             localStorage.setItem("savedMovies", savedMovies)
-             console.log(localStorage.savedMovies)
-            })
-            .catch((err) => console.log(err));
-        }
+        loadSavedMovies();
 
         setUserData({ password: res.password, email: res.email });
         handleLogin();
@@ -339,7 +320,7 @@ function App(props) {
           localStorage.setItem("shortMovie", false);
           localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
           setSearchValue(localStorage.searchRequest)
-          console.log(localStorage.searchRequest)
+          console.log(localStorage.searchRequest, searchValue)
         }
       })
       .catch((err) => console.log(err))
@@ -530,6 +511,7 @@ function App(props) {
                     initialMovies={initialMovies}
                     searchMovie={searchMovie}
                     searchFinished={searchFinished}
+                    setSearchFinished={setSearchFinished}
                     shortMovie={shortMovie}
                     savedMovies={savedMovies}
                     handleShortMovieCheckbox={handleShortMovieCheckbox}
@@ -541,6 +523,8 @@ function App(props) {
                     isLoading={isLoading}
                     searchValue={searchValue}
                     isVisible={isVisible}
+                    mountSearchResult={mountSearchResult}
+                    setAmount={props.setAmount}
                   />
                 </ProtectedRoute>
               }
@@ -584,6 +568,8 @@ function App(props) {
                     message={message}
                     successMessage={successMessage}
                     isSame={isSame}
+                    setMessage={setMessage}
+                    setSuccessMessage={setSuccessMessage}
                   />
                 </ProtectedRoute>
               }

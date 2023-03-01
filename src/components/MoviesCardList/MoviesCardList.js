@@ -1,11 +1,11 @@
 import MovieCard from "../MoviesCard/MoviesCard";
 
-import { useState } from "react";
+
 
 
 
 function MoviesCardList(props) {
-console.log(props.searchFinished)
+
   return (
     <div className="cards">
       {props.searchFinished ? (
