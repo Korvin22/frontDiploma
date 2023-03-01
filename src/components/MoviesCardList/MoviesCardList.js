@@ -36,7 +36,7 @@ console.log(props.searchFinished)
         <p></p>
       )}
       
-      <p className={`${props.searchFinished ? '' : 'cards_hidden'}`}>{props.initialMovies.length === 0 ? "Ничего не найдено" : ""}</p>
+      <p className={`${props.isVisible ? '' : 'cards_hidden'}`}>{props.initialMovies.length === 0 ? "Ничего не найдено" : ""}</p>
     </div>
   );
 }

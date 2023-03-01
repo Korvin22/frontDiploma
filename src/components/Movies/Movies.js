@@ -32,13 +32,13 @@ console.log(props.searchValue, 'movie')
       />
       <Preloader isLoading={props.isLoading}/>
       <div className={` ${
-            props.searchFinished
+            props.isVisible
               ? "movies__more"
               : "movies__more_hidden"
           }`}>
         <button
           className={` ${
-            props.stopMore
+            (props.initialMovies.length <= props.amount)
               ? "movies__button_hidden"
               : "movies__button"
           }`}

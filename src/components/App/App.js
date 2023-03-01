@@ -43,10 +43,11 @@ function App(props) {
   const [savedSearchValue,setSavedSearchValue] = useState(""); 
   const [successMessage, setSuccessMessage] = useState("");
   const [isSame, setIsSame] = useState(false);
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
   const location = useLocation();
   function handleAmount() {
-    const count = Math.round(initialMovies.length / amount);
+    /*const count = Math.round(initialMovies.length / amount);*/
+    const count = initialMovies.length + amount;
     if (initialMovies.length > amount) {
       const sizeNew = size < 928 ? 2 : 3;
       setAmount(amount + sizeNew);
@@ -55,6 +56,10 @@ function App(props) {
     }
     if (initialMovies.length <= amount) {
       setStopMore(true);
+    }
+    console.log(initialMovies.length, amount)
+    if (initialMovies.length === amount) {
+      setStopMore(false);
     }
   }
   useEffect(() => {
@@ -160,6 +165,7 @@ function App(props) {
     setSavedSearchValue("");
     setShortMovie(false);
     setShortSavedMovie(false);
+    setIsVisible(false);
 
   }
 
@@ -344,7 +350,6 @@ function App(props) {
     setIsLoading(true);
     setSearchFinished(true);
     setAmount(sizeNew);
-    setStopMore(false);
     const token = localStorage.getItem("token");
     if (token) {
       apiAuth
